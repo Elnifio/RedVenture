@@ -61,10 +61,26 @@
         <div class="row">
         {% for movie in movies %}
             <div class="col-2">
-                <a href="/movie/{{ movie.index }}"><img src="{{ movie.image_link }}" alt="{{ movie.title }}" width="100" height="150" style="text-align:center"></a>
-                <p>{{ movie.title }}</p>
+                <div class="card" style="height: 300">
+                    <a href="/movie/{{ movie.index }}">
+                    <img class="card-img-top" src="{{ movie.image_link }}" alt="{{ movie.title }}" >
+                    <div class="card-footer">
+                        <small>{{ movie.title }}</small>
+                    </div>
+                    </a>
+                </div>
             </div>
         {% endfor %}
+            <div class="col-2">
+                <div class="card">
+                    <a href="/all_movie">
+                    <div class="card-body">
+                        <h4 class="card-title"><i class="fa fa-angle-double-right"></i></h4>
+                        <p class="card-text">All Movies...</p>
+                    </div>
+                    </a>
+                </div>
+            </div>
         </div>
         {% comment %} {% for movie_group in movies %}
             <div class="row">

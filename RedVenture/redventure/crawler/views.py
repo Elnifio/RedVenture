@@ -55,7 +55,7 @@ def getAllMovies(request):
     movies_obj = []
     i = 0
     while i < len(movies):
-        movies_obj.append(movies[i:i+5])
+        movies_obj.append(movies[i:i+6])
         i += 5
     return render(request, 'crawler/AllMovies.html', {
         'movies': movies_obj

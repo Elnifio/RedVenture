@@ -38,5 +38,22 @@
         <br />
     </div>
     <div class="container page-body">
+        {% for movie_group in movies %}
+            <div class="row">
+                {% for movie in movie_group %}
+                    <div class="col-2">
+                        <div class="card">
+                            <a href="/movie/{{ movie.index }}">
+                            <img class="card-img-top" src="{{ movie.image_link }}" alt="{{ movie.title }}">
+                            <div class="card-footer">
+                                <small>{{ movie.title }}</small>
+                            </div>
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <br />
+        {% endfor %}
     </div>
 </body>
