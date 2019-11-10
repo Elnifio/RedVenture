@@ -54,6 +54,7 @@
 <body>
     <div class="container page-header" style="">
         <h3>这里填充标题</h3>
+        <br />
     </div>
     <div class="container page-body">
         <div class="row">
@@ -62,8 +63,20 @@
                     <img class="card-img-top" src="{{ image }}" alt="Poster">
                     <div class="card-body">
                         <h4 class="card-title">{{ title }}</h4>
-                        <p class="card-text">{{ date }}</p>
-                        <p class="card-text">{{ company }}</p>
+                        <div class="list-group list-group-flush">
+                            <p class="list-group-item">{{ date }}</p>
+                            <div class="list-group-item dropdown">
+                                <div class="list-group list-group-flush">
+                                    <p>Production Company Lists</p>
+                                    {% for company in companies %}
+                                        <p class="list-group-item"><small>{{ company }}</small></p>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <p class="list-group-item">Rate: {{ rate }}</p>
+                            <p class="list-group-item"></p>
+                            <p class="list-group-item"></p>
+                        </div>
                     </div>
                 </div>
             </div>
