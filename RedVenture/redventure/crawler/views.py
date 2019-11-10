@@ -4,14 +4,9 @@ from crawler.models import Movie
 
 # Create your views here.
 def getHomepage(request):
-    movies = Movie.objects.all().order_by("-priority")
-    movies_obj = []
-    i = 0
-    while (i < len(movies)):
-        movies_obj.append(movies[i:i+4])
-        i += 4
+    movies = Movie.objects.all().order_by("-priority")[:5]
     return render(request, 'crawler/Homepage.html', {
-        'movies': movies_obj
+        'movies': movies
     })
 
 def search(request):
@@ -25,8 +20,17 @@ def search(request):
     else:
             message = ""
             has_content = False
+            return render(request, 'crawler/Search.html', {
+                'has_content': has_content,
+                'movie': None
+            })
     # image_link = "https://www.bing.com/th?id=OIP.9BgnL75oBYrWpn7bZ069YwHaE8&pid=Api&rs=1"
-    movie = Movie.objects.filter(imdb=message)[0]
+    movie = Movie.objects.filter(imdb=message)
+    if (len(movie) == 0):
+        return render(request, 'crawler/Search.html', {
+                'has_content': False,
+                'movie': None
+            })
 
     return render(request, 'crawler/Search.html', {
         'has_content': has_content,
@@ -44,4 +48,15 @@ def getResultByIndex(request, index):
     return render(request, 'crawler/Search.html', {
         'has_content': True,
         'movie': movie
+    })
+
+def getAllMovies(request):
+    movies = Movie.objects.all().order_by("-priority")
+    movies_obj = []
+    i = 0
+    while i < len(movies):
+        movies_obj.append(movies[i:i+5])
+        i += 5
+    return render(request, 'crawler/AllMovies.html', {
+        'movies': movies_obj
     })
