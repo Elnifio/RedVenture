@@ -1,9 +1,16 @@
 from bs4 import BeautifulSoup
 import requests, json
 import django, os
+from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
+import matplotlib.pyplot as plt
+import numpy as np
+from PIL import Image
+from io import BytesIO
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'redventure.settings')
 django.setup()
+stopwords = set(STOPWORDS)
+stopwords.update(["movie", "film", "series", "show", "done", "watch", "see", "us", "story", "scene", "many"])
 
 from crawler.models import Movie
 
@@ -31,10 +38,6 @@ def getDictionary():
         movieDictionary[i['title']]['imdb'] = i['imdb']
     return movieDictionary
 
-def main():
-    dictionary = getDictionary()
-    print(dictionary)
-
 def main2():
     API_movie_URL = "https://casecomp.konnectrv.io/movie"
     r = requests.get(url = API_movie_URL)
@@ -55,4 +58,38 @@ def main2():
         movie.image_link = getMoviePoster(item['title'])
         movie.save()
 
-main2()
+def getComment(movie):
+    global stopwords
+    imdbID = movie.imdb
+    # get the movie poster here, modify here
+    response = requests.get(movie.image_link)
+    colorArray = np.array(Image.open(BytesIO(response.content)))
+
+    posterColor = ImageColorGenerator(colorArray)
+    url = "https://www.imdb.com/title/" + imdbID + "/reviews?ref_=tt_urv"
+    soup = BeautifulSoup(requests.get(url).text, features='lxml')
+    comments = [a for a in soup.find_all("div", class_='text show-more__control')]
+    length = max(25, len(comments))
+    comments = comments[:length]
+    commentsWithoutTag = [comment.get_text() for comment in comments]
+    commentsStr = " ".join(commentsWithoutTag)
+    wc = WordCloud(stopwords = stopwords, background_color="white", mask=colorArray).generate(commentsStr)
+    plt.imshow(wc.recolor(color_func=posterColor), interpolation='bilinear')
+    plt.axis("off")
+    plt.savefig("crawler/static/crawler/resources/%s.jpg" % movie.index)
+
+
+def getAllComments():
+    movies = Movie.objects.all()
+    for movie in movies:
+        getComment(movie)
+
+def alterField():
+    movies = Movie.objects.all()
+    for movie in movies:
+        movie.comment_lists = 'crawler/resources/%s.jpg' % movie.index
+        movie.save()
+
+# main2()
+# getAllComments()
+alterField()

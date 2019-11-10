@@ -17,27 +17,9 @@
     <!-- 加载css files的时候需要先写这部分，不能像一般静态html一样直接写 -->
     <!-- 照着这个格式抄 -->
     <!-- project中的settings.py要改STATICFILES_DIRS -->
-    {% load staticfiles %}
+    {% load static %}
     <style>
-        body {background: rgb(253, 253, 253)}
-        #article-list {background: rgb(250, 250, 250)}
-        #block-list {
-            background: rgb(255, 255, 255)
-            }
-        #block {
-            border: 10px solid #ffffff;
-            border-top-width: 10px;
-            border-bottom-width: 10px;
-            border-right-width: 10px;
-            border-radius: 20px;
-            background: rgb(245, 245, 245);
-            -webkit-transition: -webkit-transform 0.2s; /* for safari 3.1 to 6.0 */
-            transition: transform 0.2s;
-        }
-        #block:hover {
-            -webkit-transform: rotate(10deg);
-            transform: rotate(10deg);
-        }
+        
         a:link {text-decoration:none; color: #000000}    /* unvisited link */
         a:visited {text-decoration:none; color: #000000} /* visited link */
         a:hover {text-decoration:none; color: #000000}   /* mouse over link */
@@ -53,9 +35,22 @@
 
 <body>
     <div class="container page-header" style="">
+        <br />
         <h3><a href="/"><i class="fa fa-angle-double-left"></i> Back to Main Page</a></h3>
         <br />
     </div>
+    {% if not has_content %}
+    <div class="container page-body">
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="col-9">
+                <hr />
+                <h4>): Uh oh! Seems like the result didn't show up!</h4>
+                <h6> You could try &nbsp&nbsp<a href="/"><i class="fa fa-share-square-o"></i> going back to mainpage</a></h6>
+            </div>
+        </div>
+    </div>
+    {% else %}
     <div class="container page-body">
         <div class="row">
             <div class="col-3">
@@ -82,14 +77,13 @@
                 </div>
             </div>
             <div class="col-9">
-                <hr />
+                
                 <div class="row">
                     <div class="col-2">
                     </div>
-                    <div class="col-8">
-                        <h4 style="text-align: center">Trailer Image</h4>
-                    </div>
-                    <div class="col-2">
+                    <div class="col-10">
+                        <h4 style="text-align: center">Trending Keywords</h4>
+                        <img src="/static/crawler/resources/{{ movie.index }}.jpg" alt="Comment Lists">
                     </div>
                 </div>
                 <hr />
@@ -98,7 +92,7 @@
                         <p>{{ movie.overview | linebreaksbr }}</p>
                     </div>
                 </div>
-                <hr />
+                <br />
                 <div class="row">
                     <div class="col-12">
                         <h5 style="text-align:center">Available at:</h5>
@@ -115,4 +109,6 @@
             </div>
         </div>
     </div>
+    {% endif %}
+    
 </body>
