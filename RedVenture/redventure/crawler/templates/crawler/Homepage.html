@@ -19,25 +19,6 @@
     <!-- project中的settings.py要改STATICFILES_DIRS -->
     {% load staticfiles %}
     <style>
-        body {background: rgb(253, 253, 253)}
-        #article-list {background: rgb(250, 250, 250)}
-        #block-list {
-            background: rgb(255, 255, 255)
-            }
-        #block {
-            border: 10px solid #ffffff;
-            border-top-width: 10px;
-            border-bottom-width: 10px;
-            border-right-width: 10px;
-            border-radius: 20px;
-            background: rgb(245, 245, 245);
-            -webkit-transition: -webkit-transform 0.2s; /* for safari 3.1 to 6.0 */
-            transition: transform 0.2s;
-        }
-        #block:hover {
-            -webkit-transform: rotate(10deg);
-            transform: rotate(10deg);
-        }
         a:link {text-decoration:none; color: #000000}    /* unvisited link */
         a:visited {text-decoration:none; color: #000000} /* visited link */
         a:hover {text-decoration:none; color: #000000}   /* mouse over link */
@@ -74,5 +55,18 @@
             <div class="col-2">
             </div>
         </div>
+        <h5>Most Popular Movies</h5>
+        <hr />
+        {% for movie_group in movies %}
+            <div class="row">
+                {% for movie in movie_group %}
+                    <div class="col-3">
+                        <div>
+                            <a href="/movie/{{ movie.index }}"><img src="{{ movie.image_link }}" alt="{{ movie.title }}" width="300" height="450" style="text-align:center"></a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
     </div>
 </body>

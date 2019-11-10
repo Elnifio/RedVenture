@@ -1,9 +1,18 @@
 from django.http import HttpResponse
 from django.shortcuts import render
+from crawler.models import Movie
 
 # Create your views here.
 def getHomepage(request):
-    return render(request, 'crawler/Homepage.html', {})
+    movies = Movie.objects.all().order_by("-priority")
+    movies_obj = []
+    i = 0
+    while (i < len(movies)):
+        movies_obj.append(movies[i:i+4])
+        i += 4
+    return render(request, 'crawler/Homepage.html', {
+        'movies': movies_obj
+    })
 
 def search(request):
     request.encoding="utf-8"
@@ -17,44 +26,22 @@ def search(request):
             message = ""
             has_content = False
     # image_link = "https://www.bing.com/th?id=OIP.9BgnL75oBYrWpn7bZ069YwHaE8&pid=Api&rs=1"
-    image_link = "https://www.bing.com/th?id=OIP.2_3PyPfpiv3Ke8zDx_PxFAHaJ4&w=137&h=183&c=7&o=5&dpr=2&pid=1.7"
-    description = ""
-    imdb = ""
-    streaming_platform = ""
-    production_companies = ["company 1", "company 2", "company 3"]
-    rating = "R"
-    title = "这里填充title"
-    release_date = "Aug 28, 9102"
-    original_language = ""
-    popularity = ""
+    movie = Movie.objects.filter(imdb=message)[0]
 
     return render(request, 'crawler/Search.html', {
-        'message': message,
-        "image": image_link,
-        'title': title, 
-        'date': release_date, 
-        'companies': production_companies, 
-        'rate': rating
+        'has_content': has_content,
+        'movie': movie
         })
 
-def getResultByIMDB(imdb):
-    image_link = ""
-    description = ""
-    streaming_platform = ""
-    production_companies = ""
-    rating = ""
-    title = ""
-    release_date = ""
-    original_language = ""
-    popularity = ""
-    return ({
-        'img': image_link, 
-        'desc': description, 
-        'platform': streaming_platform,
-        'companies': production_companies,
-        'rate': rating,
-        'date': release_date,
-        'title': title,
-        'lang': original_language, 
-        'popularity': popularity
+def getResultByIndex(request, index):
+    movie = Movie.objects.filter(index=index)
+    if len(movie) == 0:
+        return render(request, 'crawler/Search.html', {
+            'has_content': False,
+            'movie': None
+        })
+    movie = movie[0]
+    return render(request, 'crawler/Search.html', {
+        'has_content': True,
+        'movie': movie
     })
