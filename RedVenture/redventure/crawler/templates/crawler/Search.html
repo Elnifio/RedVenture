@@ -53,34 +53,65 @@
 
 <body>
     <div class="container page-header" style="">
-        <h3>这里填充标题</h3>
+        <h3><a href="/"><i class="fa fa-angle-double-left"></i> Back to Main Page</a></h3>
         <br />
     </div>
     <div class="container page-body">
         <div class="row">
             <div class="col-3">
                 <div class="card">
-                    <img class="card-img-top" src="{{ image }}" alt="Poster">
+                    <img class="card-img-top" src="{{ movie.image_link }}" alt="Poster">
                     <div class="card-body">
-                        <h4 class="card-title">{{ title }}</h4>
+                        <h6 class="card-title">{{ movie.title }}</h6>
+                        <h6 style="display:none">{{ movie.increment }}</h6>
                         <div class="list-group list-group-flush">
-                            <p class="list-group-item">{{ date }}</p>
+                            <p class="list-group-item"><small><i class="fa fa-calendar-o"></i> {{ movie.date }}</small></p>
                             <div class="list-group-item dropdown">
                                 <div class="list-group list-group-flush">
-                                    <p>Production Company Lists</p>
-                                    {% for company in companies %}
+                                    <p><i class="fa fa-cubes"></i> <small>Production Companies</small></p>
+                                    {% for company in movie.getCompanies %}
                                         <p class="list-group-item"><small>{{ company }}</small></p>
                                     {% endfor %}
                                 </div>
                             </div>
-                            <p class="list-group-item">Rate: {{ rate }}</p>
-                            <p class="list-group-item"></p>
-                            <p class="list-group-item"></p>
+                            <p class="list-group-item">Rate: {{ movie.rate }}</p>
+                            <p class="list-group-item">Language: {{ movie.language }}</p>
+                            <p class="list-group-item">Popularity: {{ movie.popularity }}</p>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-9">
+                <hr />
+                <div class="row">
+                    <div class="col-2">
+                    </div>
+                    <div class="col-8">
+                        <h4 style="text-align: center">Trailer Image</h4>
+                    </div>
+                    <div class="col-2">
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class=col-12>
+                        <p>{{ movie.overview | linebreaksbr }}</p>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-12">
+                        <h5 style="text-align:center">Available at:</h5>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                {% for platform in movie.getPlatform %}
+                                    <th>{{ platform }}</th>
+                                {% endfor %}
+                            </tr>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
