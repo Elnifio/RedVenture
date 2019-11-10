@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-import requests
+import requests, json
 from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
 import matplotlib.pyplot as plt
 import numpy as np
@@ -27,7 +27,15 @@ def getDictionary():
         movieDictionary[i['title']]['overview'] = i['overview']
         movieDictionary[i['title']]['posterURL'] = getMoviePoster(i['title'])
         movieDictionary[i['title']]['imdb'] = i['imdb']
+        movieDictionary[i['title']]['genre'] = getGenre(i['id']);
     return movieDictionary
+
+def getGenre(id):
+    url = "https://www.imdb.com/title/" + id
+    soup = BeautifulSoup(requests.get(url).text, features='html5lib')
+    genre = [a for a in soup.find_all("script", type='application/ld+json')]
+    dic = json.loads(genre[0].get_text())
+    return dic['genre']
 
 def getComment(movieName):
     global stopwords
