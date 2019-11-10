@@ -15,10 +15,15 @@ def getMoviePoster(moviename):
 
 def getDictionary():
     API_movie_URL = "https://casecomp.konnectrv.io/movie"
-    r = requests.get(url = API_movie_URL)
+    r = requests.get(url=API_movie_URL)
     r = r.json()
     movieDictionary = {}
+
     for i in r:
+        url = "https://www.imdb.com/title/" + i['imdb']
+        soup = BeautifulSoup(requests.get(url).text, features='html5lib')
+        genre = [a for a in soup.find_all("script", type='application/ld+json')]
+        dic = json.loads(genre[0].get_text())
         movieDictionary[i['title']] = {}
         movieDictionary[i['title']]["release_date"] = i['release_date']
         movieDictionary[i['title']]['rating'] = i['rating']
@@ -27,15 +32,13 @@ def getDictionary():
         movieDictionary[i['title']]['overview'] = i['overview']
         movieDictionary[i['title']]['posterURL'] = getMoviePoster(i['title'])
         movieDictionary[i['title']]['imdb'] = i['imdb']
-        movieDictionary[i['title']]['genre'] = getGenre(i['id']);
+        movieDictionary[i['title']]['genre'] = dic['genre']
+        if 'image' in dic.keys():
+            movieDictionary[i['title']]['posterURL'] = dic['image']
+        else:
+            movieDictionary[i['title']]['posterURL'] = getMoviePoster(i['title'])
     return movieDictionary
 
-def getGenre(id):
-    url = "https://www.imdb.com/title/" + id
-    soup = BeautifulSoup(requests.get(url).text, features='html5lib')
-    genre = [a for a in soup.find_all("script", type='application/ld+json')]
-    dic = json.loads(genre[0].get_text())
-    return dic['genre']
 
 def getComment(movieName):
     global stopwords
@@ -60,4 +63,3 @@ def getComment(movieName):
 dictionary = getDictionary()
 stopwords = set(STOPWORDS)
 stopwords.update(["movie", "film", "series", "show", "done", "watch", "see", "us", "story", "scene", "many"])
-getComment("El Camino: A Breaking Bad Movie")
