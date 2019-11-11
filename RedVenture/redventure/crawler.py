@@ -38,7 +38,25 @@ def getDictionary():
         movieDictionary[i['title']]['imdb'] = i['imdb']
     return movieDictionary
 
-def main2():
+def updateAllPictures():
+    API_movie_URL = "https://casecomp.konnectrv.io/movie"
+    r = requests.get(url = API_movie_URL)
+    r = r.json()
+    for item in r:
+        url = "https://www.imdb.com/title/" + item['imdb']
+        soup = BeautifulSoup(requests.get(url).text, features='lxml')
+        genre = [a for a in soup.find_all("script", type='application/ld+json')]
+        dic = json.loads(genre[0].get_text())
+        movie = Movie.objects.get(imdb=item['imdb'])
+        movie.genre = dic['genre']
+        if 'image' in dic.keys():
+            movie.image_link = dic['image']
+        else:
+            movie.image_link = getMoviePoster(item['title'])
+        movie.save()
+
+
+def createMovies():
     API_movie_URL = "https://casecomp.konnectrv.io/movie"
     r = requests.get(url = API_movie_URL)
     r = r.json()
@@ -90,6 +108,7 @@ def alterField():
         movie.comment_lists = 'crawler/resources/%s.jpg' % movie.index
         movie.save()
 
-# main2()
-# getAllComments()
-alterField()
+# createMovies()
+getAllComments()
+# alterField()
+# updateAllPictures()

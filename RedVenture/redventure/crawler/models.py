@@ -18,6 +18,7 @@ class Movie(models.Model):
     image_link = models.TextField()
     priority = models.IntegerField(default=0)
     comment_lists = models.TextField(default="crawler/resources/%s.jpg" % index)
+    genre = models.TextField(default="")
 
     def getPlatform(self):
         return json.loads(self.platform)
