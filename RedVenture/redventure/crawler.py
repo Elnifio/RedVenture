@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from PIL import Image
 from io import BytesIO
-import cv2 as cv
+import cv2 as cv # USE 3.x.x.xx VERSIONS OF OPENCV-PYTHON
 import pandas as pd
 import urllib
 
@@ -221,6 +221,7 @@ def getCommentCloudMap(movie):
     imgray = cv.cvtColor(colorArray, cv.COLOR_BGR2GRAY)
     ret, thresh = cv.threshold(imgray, 127, 255, 0)
     maskArray, contours, hierarchy = cv.findContours(thresh, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
+    # contours, hierarchy = cv.findContours(thresh, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
 
     url = "https://www.imdb.com/title/" + imdbID + "/reviews?ref_=tt_urv"
     soup = BeautifulSoup(requests.get(url).text, features='lxml')
@@ -232,15 +233,20 @@ def getCommentCloudMap(movie):
 
     wc = WordCloud(stopwords=stopwords, background_color="white", mask=maskArray, contour_width=3,
                    contour_color='firebrick').generate(commentsStr)
+    # wc = WordCloud(stopwords=stopwords, background_color="white", contour_width=3,
+    #                contour_color='firebrick').generate(commentsStr)
 
     plt.imshow(wc.recolor(color_func=posterColor), interpolation='bilinear')
     plt.axis("off")
     plt.savefig("crawler/static/crawler/resources/WordCloud/%s.jpg" % movie.index)
 
 def getAllCommentsCloudMap():
+    counter = 0
     movies = Movie.objects.all()
     for movie in movies:
         getCommentCloudMap(movie)
+        counter += 1
+        print(counter)
 
 
 # using pandas here to calculate percentage

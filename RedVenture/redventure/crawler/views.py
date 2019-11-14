@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-from crawler.models import Movie, Genre, Platform
+from crawler.models import Movie, Genre, Platform, Page
 
 # Create your views here.
 def getHomepage(request):
@@ -8,6 +8,7 @@ def getHomepage(request):
     trending_movies = Movie.objects.all().order_by("-date")[:5]
     genres = Genre.objects.all()[:6]
     platforms = Platform.objects.all()[:6]
+    Page.objects.get(title='Homepage').auto_increment()
     return render(request, 'crawler/Homepage.html', {
         'priority_movies': priority_movies, 
         'trending_movies': trending_movies, 
@@ -19,6 +20,7 @@ def search(request):
     request.encoding="utf-8"
     message = ""
     has_content = False
+    Page.objects.get(title="Search").auto_increment()
     if 'search' in request.GET and request.GET['search']:
         message = request.GET['search']
         has_content = True
@@ -44,6 +46,7 @@ def search(request):
 
 def getResultByIndex(request, index):
     movie = Movie.objects.filter(index=index)
+    Page.objects.get(title="Search").auto_increment()
     if len(movie) == 0:
         return render(request, 'crawler/Search.html', {
             'has_content': False,
@@ -59,6 +62,7 @@ def getAllMoviesByPriority(request):
     movies = Movie.objects.all().order_by("-priority")
     movies_obj = []
     i = 0
+    Page.objects.get(title="Popular").auto_increment()
     while i < len(movies):
         movies_obj.append(movies[i:i+6])
         i += 5
@@ -71,6 +75,7 @@ def getAllMoviesByDatetime(request):
     movies = Movie.objects.all().order_by("-date")
     movies_obj = []
     i = 0
+    Page.objects.get(title="Trending").auto_increment()
     while i < len(movies):
         movies_obj.append(movies[i:i+6])
         i += 6
@@ -83,6 +88,7 @@ def getAllMoviesByGenre(request, genre):
     out = Movie.objects.filter(genre__icontains=genre)
     out_obj = []
     i = 0
+    Page.objects.get(title="Genres").auto_increment()
     while i < len(out):
         out_obj.append(out[i:i+6])
         i += 6
@@ -94,6 +100,7 @@ def getAllMoviesByGenre(request, genre):
 def getAllMoviesByPlatform(request, pf):
     out = Movie.objects.filter(platform__icontains=pf)
     out_obj = []
+    Page.objects.get(title="Platforms").auto_increment()
     i = 0
     while i < len(out):
         out_obj.append(out[i:i+6])
@@ -107,6 +114,7 @@ def getAllCategories(request):
     genres = Genre.objects.all()
     i = 0
     out = []
+    Page.objects.get(title="Genres").auto_increment()
     while i < len(genres):
         out.append(genres[i:i+6])
         i += 6
@@ -119,10 +127,23 @@ def getAllPlatforms(request):
     genres = Platform.objects.all()
     i = 0
     out = []
+    Page.objects.get(title="Platforms").auto_increment()
     while i < len(genres):
         out.append(genres[i:i+6])
         i += 6
     return render(request, 'crawler/AllPlatforms.html', {
         'pfs': out,
         'title': 'All Platforms'
+    })
+
+def getPagesStatistics(request):
+    pages = Page.objects.all().order_by("-counter")
+    return render(request, 'crawler/PageStat.html', {
+        'pages': pages
+    })
+
+def getMovieStats(request):
+    movies = Movie.objects.all().order_by("-priority")
+    return render(request, 'crawler/MovieStat.html', {
+        'movies': movies
     })

@@ -11,5 +11,7 @@ urlpatterns = [
     path("category/<str:genre>", crawler.views.getAllMoviesByGenre), 
     path("category", crawler.views.getAllCategories),
     path("platform", crawler.views.getAllPlatforms),
-    path("platform/<str:pf>", crawler.views.getAllMoviesByPlatform)
+    path("platform/<str:pf>", crawler.views.getAllMoviesByPlatform),
+    path("pagestat", crawler.views.getPagesStatistics), 
+    path("moviestat", crawler.views.getMovieStats)
 ]

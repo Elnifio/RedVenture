@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- 网页标题 -->
-    <title>{{ title }}</title>
+    <title>All Movie Statistics</title>
 
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -29,6 +29,7 @@
     <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </head>
+
 <body>
     <div class="container page-header" style="">
         <br />
@@ -37,28 +38,28 @@
                 <h6><a href="/"><i class="fa fa-angle-double-left"></i> Back to Main Page</a></h6>
             </div>
             <div class="col-8">
-                <h3>{{ title }}</h3>
+                <h3>Movie Statistics</h3>
             </div>
         </div>
         <br />
     </div>
-    <div class="container page-body">
-        {% for movie_group in movies %}
-            <div class="row">
-                {% for movie in movie_group %}
-                    <div class="col-2">
-                        <div class="card">
-                            <a href="/movie/{{ movie.index }}">
-                            <img class="card-img-top" src="/static/crawler/resources/Poster/{{ movie.index }}.jpg" alt="{{ movie.title }}">
-                            <div class="card-footer">
-                                <small>{{ movie.title }}</small>
-                            </div>
-                            </a>
-                        </div>
-                    </div>
+    <div class="container page-body" style="">
+        <hr />
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Movie</th>
+                    <th>Counts</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for movie in movies %}
+                    <tr>
+                        <td>{{ movie.title }}</td>
+                        <td>{{ movie.priority }}</td>
+                    </tr>
                 {% endfor %}
-            </div>
-            <br />
-        {% endfor %}
+            </tbody>
+        </table>
     </div>
 </body>
