@@ -47,9 +47,9 @@
         <div class="col-2">
             </div>
                 <div class="col-8" style="text-align: center">
-                    <p>Search By iMDb Links</p>
+                    <p>Search By Movie Title</p>
                     <form action='/search' method="get">
-                        <input type="text" name="search"><input type="submit" value="Go!">
+                        <input type="text" name="search"><input type="submit" value="Search">
                     </form>
                 </div>
             <div class="col-2">
@@ -114,11 +114,18 @@
                 </div>
                 <hr />
                 <div class="row">
-                    <span>
-                        <span><a href="/pagestat"><i class="fa fa-history"></i> Page Statistics </a></span>
-                        <span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>
-                        <span><a href="/moviestat"><i class="fa fa-line-chart"></i> All Movies Statistics </a></span>
-                    </span>
+                    <div class="col-12">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th><a href="/pagestat"><i class="fa fa-desktop"></i> Page Stats</a></th>
+                                    <th><a href="/moviestat"><i class="fa fa-history"></i> All Movie Stats</a></th>
+                                    <th><a href="/genrestat"><i class="fa fa-dashboard"></i> All Genre Stats</a></th>
+                                    <th><a href="/platformstat"><i class="fa fa-line-chart"></i> All Platform Stats</a></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
                 </div>
             </div>
             <div class="col-2">

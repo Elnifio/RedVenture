@@ -26,22 +26,28 @@ def search(request):
         has_content = True
     else:
             message = ""
-            has_content = False
             return render(request, 'crawler/Search.html', {
-                'has_content': has_content,
-                'movie': None
-            })
-    # image_link = "https://www.bing.com/th?id=OIP.9BgnL75oBYrWpn7bZ069YwHaE8&pid=Api&rs=1"
-    movie = Movie.objects.filter(imdb=message)
-    if (len(movie) == 0):
-        return render(request, 'crawler/Search.html', {
                 'has_content': False,
-                'movie': None
+                'movie': None,
+                'search': ""
+            })
+    movie = Movie.objects.filter(title__icontains=message)
+    movie = movie.union(Movie.objects.filter(imdb__icontains=message))
+    search = message
+    message = message.split(" ")
+    for item in message:
+        movie = movie.union(Movie.objects.filter(title__icontains=item))
+    if (len(movie) == 0):
+        return render(request, 'crawler/SearchResult.html', {
+                'has_content': False,
+                'results': None,
+                'search': search
             })
 
-    return render(request, 'crawler/Search.html', {
+    return render(request, 'crawler/SearchResult.html', {
         'has_content': has_content,
-        'movie': movie[0]
+        'results': movie, 
+        'search': search
         })
 
 def getResultByIndex(request, index):
@@ -88,6 +94,7 @@ def getAllMoviesByGenre(request, genre):
     out = Movie.objects.filter(genre__icontains=genre)
     out_obj = []
     i = 0
+    Genre.objects.get(genre=genre).auto_increment()
     Page.objects.get(title="Genres").auto_increment()
     while i < len(out):
         out_obj.append(out[i:i+6])
@@ -100,6 +107,7 @@ def getAllMoviesByGenre(request, genre):
 def getAllMoviesByPlatform(request, pf):
     out = Movie.objects.filter(platform__icontains=pf)
     out_obj = []
+    Platform.objects.get(platform=pf).auto_increment()
     Page.objects.get(title="Platforms").auto_increment()
     i = 0
     while i < len(out):
@@ -145,5 +153,20 @@ def getPagesStatistics(request):
 def getMovieStats(request):
     movies = Movie.objects.all().order_by("-priority")
     return render(request, 'crawler/MovieStat.html', {
-        'movies': movies
+        'objects': movies,
+        'category': "Movies"
+    })
+
+def getPlatformStats(request):
+    platforms = Platform.objects.all().order_by("-priority")
+    return render(request, 'crawler/PfGenreStat.html', {
+        'objects': platforms,
+        "category": "Platform"
+    })
+
+def getGenreStats(request):
+    genres = Genre.objects.all().order_by("-priority")
+    return render(request, 'crawler/PfGenreStat.html', {
+        'objects': genres,
+        'category': "Genre"
     })

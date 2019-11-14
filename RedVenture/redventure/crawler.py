@@ -248,6 +248,16 @@ def getAllCommentsCloudMap():
         counter += 1
         print(counter)
 
+def downloadPic(movie):
+    img = requests.get(movie.image_link)
+    with open('crawler/static/crawler/resources/Poster/%s.jpg' % movie.index, 'ab') as f:
+        f.write(img.content)
+        f.close()
+
+def downloadAllPics():
+    movies = Movie.objects.all()
+    for movie in movies:
+        downloadPic(movie)
 
 # using pandas here to calculate percentage
 def getPercentageBetter(dictionary):
@@ -256,9 +266,8 @@ def getPercentageBetter(dictionary):
     dictFrame = dictFrame.transpose()
     comparisonFrame = dictFrame
     dictFrame = dictFrame.apply(getComparisonPercentage, axis=1)
-    # return dictFrame[['genreBetterPercentage', 'allBetterPercentage']]
-    print(dictFrame[['genreBetterPercentage', 'allBetterPercentage']])
-
+    return dictFrame[['genreBetterPercentage', 'allBetterPercentage']]
+    # print(dictFrame[['genreBetterPercentage', 'allBetterPercentage']])
 
 def getComparisonPercentage(row):
     global comparisonFrame
@@ -279,23 +288,30 @@ def getComparisonPercentage(row):
     row['allBetterPercentage'] = allBetterPercentage  # better than how much percentage of all films
     return row
 
-def downloadPic(movie):
-    img = requests.get(movie.image_link)
-    with open('crawler/static/crawler/resources/Poster/%s.jpg' % movie.index, 'ab') as f:
-        f.write(img.content)
-        f.close()
-
-def downloadAllPics():
+def getAllDicTxt():
+    dicTxt = {}
     movies = Movie.objects.all()
     for movie in movies:
-        downloadPic(movie)
+        dicTxt[movie.title] = {"imdb_score": movie.imdb_score, "genre": movie.getGenre()}
+    return dicTxt
 
-# dictionaryTxt = json.loads(open('dic.txt', 'r').read())
+dictionaryTxt = getAllDicTxt()
 comparisonFrame = 0
-# result = getPercentageBetter(dictionaryTxt)
+result = getPercentageBetter(dictionaryTxt)
+movies = Movie.objects.all()
+for movie in movies:
+    gBP = result.loc[movie.title]['genreBetterPercentage']
+    aBP = result.loc[movie.title]['allBetterPercentage']
+    movie.genreBetterPercentage = gBP
+    movie.allBetterPercentage = aBP
+    movie.save()
+# movies = Movie.objects.get(index=1)
+# print(result.loc[movies.title]['genreBetterPercentage'])
+
 # print(result)
+
 # getDictionary()
-getAllCommentsCloudMap()
+# getAllCommentsCloudMap()
 # downloadAllPics()
 
 # getAllGenre()

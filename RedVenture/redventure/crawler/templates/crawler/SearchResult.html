@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <!-- 声明网页编码 -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- 网页标题 -->
+    <title>PageStat</title>
+
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    
+    <!-- font-awesome 文件-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- 加载css files的时候需要先写这部分，不能像一般静态html一样直接写 -->
+    <!-- 照着这个格式抄 -->
+    <!-- project中的settings.py要改STATICFILES_DIRS -->
+    {% load staticfiles %}
+    <style>
+        a:link {text-decoration:none; color: #000000}    /* unvisited link */
+        a:visited {text-decoration:none; color: #000000} /* visited link */
+        a:hover {text-decoration:none; color: #000000}   /* mouse over link */
+        a:active {text-decoration:none; color: #000000}  /* selected link */
+    </style>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="container page-header" style="">
+        <br />
+        <div class="row">
+            <div class="col-4">
+                <h6><a href="/"><i class="fa fa-angle-double-left"></i> Back to Main Page</a></h6>
+            </div>
+            <div class="col-8">
+                <h3>Search Result for <span style="color: grey">{{ search }}</span></h3>
+            </div>
+        </div>
+        <br />
+    </div>
+    {% if not has_content %}
+        <div class="container page-body">
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="col-9">
+                <hr />
+                <h4>): Uh oh! Seems like the result didn't show up!</h4>
+                <h6> You could try &nbsp&nbsp<a href="/"><i class="fa fa-share-square-o"></i> going back to mainpage</a></h6>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="container page-body" style="background-color: rgb(250, 250, 250)">
+        {% for movie in results %}
+            <div class="row">
+                <div class="col-2 card">
+                    <a href="/movie/{{ movie.index }}">
+                        <img class="card-img-top" src="/static/crawler/resources/Poster/{{ movie.index }}.jpg" alt="{{ movie.title }}">
+                    </a>
+                </div>
+                <div class="col-10">
+                    <span>
+                        <h5>{{ movie.title }} <small>({{ movie.getYear }})</small></h5>
+                        <span>Available at: </span>
+                        {% for pf in movie.getPlatform %}
+                            <span>{{ pf }}; </span>
+                        {% endfor %}
+                        <br />
+                        <span style="color: grey"><a href="/movie/{{ movie.index }}" style="color: blue; text-decoration: underline"><i class="fa fa-external-link"></i> Read More...</a></span>
+                        <br />
+                        <span style="color: grey">Google Link: </span><small><a href="https://google.com/search?q={{ movie.title }}" style="color: blue; text-decoration: underline">{{ movie.title }}</a></small>
+                        <br />
+                        <span style="color: grey">iMDb Link: </span><small><a href="https://www.imdb.com/title/{{ movie.imdb }}" style="color: blue; text-decoration: underline">{{ movie.imdb }}</a></small>
+                        <br />
+                    </span>
+                </div>
+            </div>
+            <hr />
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+</body>

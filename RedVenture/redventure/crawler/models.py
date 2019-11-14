@@ -21,17 +21,33 @@ class Page(models.Model):
 class Genre(models.Model):
     index = models.AutoField(primary_key=True)
     genre = models.TextField(default="")
+    priority = models.IntegerField(default=0)
+    
+    def auto_increment(self):
+        self.priority += 1
+        self.save()
 
     def __str__(self):
         return "(%s) %s" % (self.index, self.genre)
+    
+    def name(self):
+        return self.genre
 
 
 class Platform(models.Model):
     index = models.AutoField(primary_key=True)
     platform = models.TextField(default="")
+    priority = models.IntegerField(default=0)
+
+    def auto_increment(self):
+        self.priority += 1
+        self.save()
 
     def __str__(self):
         return "(%s) %s" % (self.index, self.platform)
+    
+    def name(self):
+        return self.platform
 
 
 class Movie(models.Model):
@@ -56,9 +72,20 @@ class Movie(models.Model):
     rate_data = models.TextField(default="")
     casts = models.TextField(default="")
     cast_image = models.TextField(default="")
+    genreBetterPercentage = models.TextField(default="")
+    allBetterPercentage = models.TextField(default="")
+
+    def getGenrePercentage(self):
+        return "{:.2f}%".format(float(self.genreBetterPercentage) * 100)
+
+    def getAllPercentage(self):
+        return "{:.2f}%".format(float(self.allBetterPercentage) * 100)
 
     def getVote(self):
         return float(self.v_average)
+
+    def getIMDB(self):
+        return float(self.imdb_score)
     
     def getVotePercentage(self):
         return "%s%%" % (self.getVote() * 10)
@@ -68,6 +95,12 @@ class Movie(models.Model):
 
     def getGenre(self):
         return json.loads(self.genre)
+        
+    def getCasts(self):
+        return json.loads(self.casts)
+
+    def getCastImages(self):
+        return json.loads(self.cast_image)
 
     def getPlatform(self):
         return json.loads(self.platform)
@@ -93,3 +126,6 @@ class Movie(models.Model):
 
     def __str__(self):
         return "(%s) %s: %s" % (self.index, self.title, self.imdb)
+
+    def name(self):
+        return self.title
