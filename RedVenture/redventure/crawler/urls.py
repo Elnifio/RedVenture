@@ -6,5 +6,10 @@ urlpatterns = [
     path("", crawler.views.getHomepage), 
     path("search", crawler.views.search),
     path("movie/<int:index>", crawler.views.getResultByIndex), 
-    path("all_movie", crawler.views.getAllMovies)
+    path("popular_movies", crawler.views.getAllMoviesByPriority), 
+    path("recent_movies", crawler.views.getAllMoviesByDatetime),
+    path("category/<str:genre>", crawler.views.getAllMoviesByGenre), 
+    path("category", crawler.views.getAllCategories),
+    path("platform", crawler.views.getAllPlatforms),
+    path("platform/<str:pf>", crawler.views.getAllMoviesByPlatform)
 ]

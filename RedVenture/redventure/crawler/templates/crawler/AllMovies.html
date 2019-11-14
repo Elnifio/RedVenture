@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- 网页标题 -->
-    <title>Homepage</title>
+    <title>{{ title }}</title>
 
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -23,8 +23,6 @@
         a:visited {text-decoration:none; color: #000000} /* visited link */
         a:hover {text-decoration:none; color: #000000}   /* mouse over link */
         a:active {text-decoration:none; color: #000000}  /* selected link */
-        
-
     </style>
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -34,7 +32,14 @@
 <body>
     <div class="container page-header" style="">
         <br />
-        <h3><a href="/"><i class="fa fa-angle-double-left"></i> Back to Main Page</a></h3>
+        <div class="row">
+            <div class="col-4">
+                <h6><a href="/"><i class="fa fa-angle-double-left"></i> Back to Main Page</a></h6>
+            </div>
+            <div class="col-8">
+                <h3>{{ title }}</h3>
+            </div>
+        </div>
         <br />
     </div>
     <div class="container page-body">

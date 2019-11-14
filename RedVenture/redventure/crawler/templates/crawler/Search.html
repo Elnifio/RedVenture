@@ -52,7 +52,99 @@
     </div>
     {% else %}
     <div class="container page-body">
+    <!-- 继续写这一部分 照抄豆瓣 -->
         <div class="row">
+            <div class="col-9">
+            <!-- 电影标题 -->
+                <h4>{{ movie.title }} <small>({{ movie.getYear }})</small></h4>
+                <hr />
+                <div class="row">
+                    <div class="col-3">
+                        <div class="card">
+                            <img class="card-img-top" src="{{ movie.image_link }}" alt="Poster">        
+                        </div>
+                    </div>
+                    <!-- 中间部分的所有内容 -->
+                    <div class="col-9">
+                        <div class="row">
+                            <!-- 电影相关信息 包括主演等等 -->
+                            <div class="col-8">
+                                <span>
+                                    <span style="color: grey">Production Companies:</span>
+                                    <small>
+                                    {% for company in movie.getCompanies %}
+                                        <span style="color: green">{{ company }}</span><span>; </span>
+                                    {% endfor %}
+                                    </small>
+                                </span>
+                                <br />
+                                <span>
+                                    <span style="color: grey">Genres:</span>
+                                    <small>
+                                    {% for genre in movie.getGenre %}
+                                        <a href="/category/{{ genre }}"><span  style="color: blue; text-decoration:underline">{{ genre }}</span>; </a>
+                                    {% endfor %}
+                                    </small>
+                                </span>
+                                <br />
+                                <span>
+                                    <span style="color: grey">Published At: </span>
+                                    <span>{{ movie.date }}</span>
+                                </span>
+                                <br />
+                                <span>
+                                    <span style="color: grey">Language: </span><span style="color: green">{{ movie.language }}</span>
+                                </span>
+                                <br />
+                                <span>
+                                    <span style="color: grey">Rate: </span><span style="color: red">{{ movie.rate }}</span>
+                                </span>
+                                <br />
+                                <span>
+                                    <span style="color: grey">iMDb Link: </span><small><a href="https://www.imdb.com/title/{{ movie.imdb }}" style="color: blue; text-decoration: underline">{{ movie.imdb }}</a></small>
+                                </span>
+                                <div>
+                                    <span>
+                                        <span style="color: grey">Voter Average: </span>
+                                        {{ movie.v_average }}
+                                        <span class="progress">
+                                            <span class="progress-bar bg-warning" style="width:{{ movie.getVotePercentage }}">
+                                                {{ movie.getVotePercentage }}
+                                            </span>
+                                        </span>
+                                        <span class="badge badge-primary">
+                                            {{ movie.vcount }} votes
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- wordcloud -->
+                            <div class="col-4">        
+                                    <img src="/static/crawler/resources/WordCloud/{{ movie.index }}.jpg" alt="Comment Lists">        
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 右边部分的Available Platforms -->
+            <div class="col-3 list-group">
+                <p class="list-group-item active" style="text-align: center">Available At: </p>
+                {% for pf in movie.getPlatform %}
+                    <a href="https://google.com/search?q={{ pf }}" class="list-group-item" style="text-align:center">{{ pf }}</a>
+                {% endfor %}
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+        <!-- Brief Intro to the Movie -->
+            <div class="col-12">
+                <h5 style="color: green">Overview of {{ movie.title }}......</h5>
+                <p style="text-indent: 10px">{{ movie.overview }}</p>
+            </div>
+        </div>
+        {% endif %}
+
+        {% comment %} <div class="row">
             <div class="col-3">
                 <div class="card">
                     <img class="card-img-top" src="{{ movie.image_link }}" alt="Poster">
@@ -84,7 +176,7 @@
                     </div>
                     <div class="col-10">
                         <h4 style="text-align: center">Trending Keywords</h4>
-                        <img src="/static/crawler/resources/{{ movie.index }}.jpg" alt="Comment Lists">
+                        <img src="/static/crawler/resources/WordCloud/{{ movie.index }}.jpg" alt="Comment Lists">
                     </div>
                 </div>
                 <hr />
@@ -111,5 +203,5 @@
         </div>
     </div>
     {% endif %}
-    
+     {% endcomment %}
 </body>
