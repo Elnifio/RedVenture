@@ -58,7 +58,7 @@ It's not necessary to understand other modules,
 but it'll be beneficial for you to understand the code.
 )
 
-![picture](https://github.com/Elnifio/RedVenture/blob/master/RedVenture/redventure/crawler/static/crawler/resources/WordCloud/streaming platform product management mind map.png)
+![picture](RedVenture/redventure/crawler/static/crawler/resources/WordCloud/streaming platform product management mind map.png)
 
 * * *
 ## Further Extensions
