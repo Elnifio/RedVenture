@@ -69,7 +69,7 @@ before making any changes to this project.
 :)
 
 
-# Credit
+# Credit 
 Frontend & Backend: @Elnifio
 
 Crawler & WordCloud & "Better Percentage": @Vol0324
