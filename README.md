@@ -58,6 +58,7 @@ It's not necessary to understand other modules,
 but it'll be beneficial for you to understand the code.
 )
 
+### Product Design Logic Behind and programmin method used in mind map
 ![picture](https://github.com/Elnifio/RedVenture/blob/master/RedVenture/redventure/crawler/static/crawler/resources/WordCloud/streaming platform product management mind map.png)
 * * *
 ## Further Extensions
