@@ -16,9 +16,7 @@ For instance, if you search for "tt66", it will return all movies with iMDb link
 For each movies, we have accessed all comments on iMDb and created a word map based on these comments.
 Here is one demo word map for LotR:
 
-![picture](https://github.com/Elnifio/RedVenture/blob/master/RedVenture/redventure/crawler/static/crawler/resources/WordCloud/13.jpg）
-(https://github.com/Elnifio/RedVenture/blob/master/RedVenture/redventure/crawler/static/crawler/resources/WordCloud/5.jpg)
-(https://github.com/Elnifio/RedVenture/blob/master/RedVenture/redventure/crawler/static/crawler/resources/WordCloud/1.jpg)
+![picture](https://github.com/Elnifio/RedVenture/blob/master/RedVenture/redventure/crawler/static/crawler/resources/WordCloud/13.jpg）(https://github.com/Elnifio/RedVenture/blob/master/RedVenture/redventure/crawler/static/crawler/resources/WordCloud/5.jpg)(https://github.com/Elnifio/RedVenture/blob/master/RedVenture/redventure/crawler/static/crawler/resources/WordCloud/1.jpg)
 
 As displayed above, we have mapped out the contours of the poster, and then added popular keywords from all comments.
 
