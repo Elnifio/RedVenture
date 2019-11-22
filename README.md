@@ -42,7 +42,7 @@ You could explore other features by yourself. See Usage below.
 - json
 - re
 - requests
-- The following modules are not necessary to run `crawler.py`, but is necessary if you wish to mess with this file:
+- The following modules are not necessary to run `crawler.py`, but are necessary if you wish to mess with this file:
   - BeautifulSoup (For HTML Analysis)
   - wordcloud (for creating WordCloud Pictures)
   - cv2 - OpenCV (for mapping out the contours of the poster, PLEASE USE 3.x.x.xx VERSIONS; If you have 4.x.x.xx installed, then try modifying the codes in `crawler.py` as stated in the comment)
@@ -53,8 +53,8 @@ You could explore other features by yourself. See Usage below.
 
 (
 If you wish to play around in `crawler.py`, 
-be sure to understand how to use Django! 
-It's not necessary to understand other modules, 
+make sure you know how to use Django!
+Though it's not necessary to understand other modules, 
 but it'll be beneficial for you to understand the code.
 )
 
