@@ -14,7 +14,7 @@ For instance, if you search for "tt66", it will return all movies with iMDb link
 
 ### Word Cloud Implementation
 For each movies, we have accessed all comments on iMDb and created a word map based on these comments.
-Here is one demo word map for LotR:
+Here are some demo pictures:
 
 ![picture](https://github.com/Elnifio/RedVenture/blob/master/RedVenture/redventure/crawler/static/crawler/resources/WordCloud/13.jpg)
 ![picture](https://github.com/Elnifio/RedVenture/blob/master/RedVenture/redventure/crawler/static/crawler/resources/WordCloud/5.jpg)
